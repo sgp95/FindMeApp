@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_hello"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/textBlack"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Hola usuario, por favor elija cualquiera de las opciones abajo si necesita ayuda:" />
+
+    <RelativeLayout
+        android:id="@+id/rely_options_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_hello">
+
+        <Button
+            android:id="@+id/btn_family"
+            style="@style/BlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/patient_family_menu"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="101dp"
+            tools:layout_editor_absoluteY="231dp" />
+
+        <Button
+            android:id="@+id/btn_pets"
+            style="@style/BlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_family"
+            android:layout_marginTop="8dp"
+            android:text="@string/patient_pet_menu"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="101dp"
+            tools:layout_editor_absoluteY="231dp" />
+
+        <Button
+            android:id="@+id/btn_care_takers"
+            style="@style/BlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_pets"
+            android:layout_marginTop="8dp"
+            android:text="@string/patient_care_takers"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="101dp"
+            tools:layout_editor_absoluteY="231dp" />
+
+        <Button
+            android:id="@+id/btn_places"
+            style="@style/BlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_care_takers"
+            android:layout_marginTop="8dp"
+            android:text="@string/patient_places_to_remenber"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="101dp"
+            tools:layout_editor_absoluteY="231dp" />
+
+        <Button
+            android:id="@+id/btn_call_help"
+            style="@style/BlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_places"
+            android:layout_marginTop="8dp"
+            android:text="@string/patient_call_help"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="101dp"
+            tools:layout_editor_absoluteY="231dp" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

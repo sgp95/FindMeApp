@@ -8,4 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BlueButton" parent="AppTheme">
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">@drawable/blue_button_selector</item>
+        <item name="android:textColor">@android:color/background_light</item>
+    </style>
+
+    <style name="AppTheme.Fullscreen">
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.textInput" parent="Widget.AppCompat.EditText">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
 </resources>

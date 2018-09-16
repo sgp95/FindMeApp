@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">FindMeApp</string>
+    <string name="splash_transition_name">splashImage</string>
+    <string name="patient_hello">Hola %1$s, por favor elija cualquiera de las opciones abajo si necesita ayuda:</string>
+    <string name="patient_family_menu">Mi familia</string>
+    <string name="patient_pet_menu">Mascotas de la casa</string>
+    <string name="patient_care_takers">Personas que me cuidan</string>
+    <string name="patient_places_to_remenber">Lugares que debo recordar</string>
+    <string name="patient_call_help">Necesitas Ayuda?</string>
 </resources>
