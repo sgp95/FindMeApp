@@ -39,6 +39,11 @@ public class LoginAcitivty extends AppCompatActivity implements LoginContract.Vi
         );
     }
 
+    @OnClick(R.id.btn_register)
+    public void registerButtonClicked(){
+        startActivity(new Intent(LoginAcitivty.this, com.guillen.santiago.findmeapp.view.patient.MainActivity.class));
+    }
+
     @Override
     public void onLoginSuccess() {
         startActivity(new Intent(LoginAcitivty.this, MainActivity.class));
