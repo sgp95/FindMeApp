@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.guillen.santiago.findmeapp.R;
-import com.guillen.santiago.findmeapp.view.patient.MainActivity;
+import com.guillen.santiago.findmeapp.view.careTaker.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -7,4 +7,6 @@
     <string name="patient_care_takers">Personas que me cuidan</string>
     <string name="patient_places_to_remenber">Lugares que debo recordar</string>
     <string name="patient_call_help">Necesitas Ayuda?</string>
+    <!-- Menu Titles -->
+    <string name="beacon_option">Lista de beacons</string>
 </resources>

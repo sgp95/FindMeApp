@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="BlueButton" parent="AppTheme">
         <item name="android:textSize">15sp</item>
         <item name="android:background">@drawable/blue_button_selector</item>
