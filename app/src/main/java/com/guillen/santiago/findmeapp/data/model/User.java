@@ -9,6 +9,8 @@ public class User {
     private String image;
     @SerializedName("type")
     private String userType;
+    @SerializedName("phone")
+    private int contactPhone;
     @SerializedName("name")
     private UserName name;
 
@@ -45,5 +47,13 @@ public class User {
 
     public void setName(UserName name) {
         this.name = name;
+    }
+
+    public int getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(int contactPhone) {
+        this.contactPhone = contactPhone;
     }
 }

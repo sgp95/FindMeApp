@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.guillen.santiago.findmeapp.R;
+import com.guillen.santiago.findmeapp.data.model.User;
 import com.guillen.santiago.findmeapp.view.careTaker.MainActivity;
 
 import butterknife.BindView;
@@ -45,7 +46,7 @@ public class LoginAcitivty extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void onLoginSuccess() {
+    public void onLoginSuccess(User userInfo) {
         startActivity(new Intent(LoginAcitivty.this, MainActivity.class));
     }
 

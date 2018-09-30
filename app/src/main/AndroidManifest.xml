@@ -33,6 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.login.LoginAcitivty"/>
+        <activity android:name=".view.register.RegisterUserActivity"/>
         <activity android:name=".view.patient.MainActivity"/>
         <activity android:name=".view.careTaker.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>

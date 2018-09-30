@@ -18,6 +18,9 @@ import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeEmitter;
 import io.reactivex.MaybeOnSubscribe;
+import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 
 public class UserService {
     ReferencesManager manager;
@@ -52,17 +55,36 @@ public class UserService {
         });
     }
 
-    public Completable RegisterUser(final String email, final String password){
-        return Completable.create(new CompletableOnSubscribe() {
+//    public Completable RegisterUser(final String email, final String password){
+//        return Completable.create(new CompletableOnSubscribe() {
+//            @Override
+//            public void subscribe(final CompletableEmitter emitter) throws Exception {
+//                manager.getFirebaseAuth()
+//                        .createUserWithEmailAndPassword(email, password)
+//                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if(task.isSuccessful()){
+//                            emitter.onComplete();
+//                        }else {
+//                            emitter.onError(task.getException());
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//    }
+
+    public Single<Task<AuthResult>> RegisterUser(final String email, final String password){
+        return Single.create(new SingleOnSubscribe<Task<AuthResult>>() {
             @Override
-            public void subscribe(final CompletableEmitter emitter) throws Exception {
+            public void subscribe(final SingleEmitter<Task<AuthResult>> emitter) throws Exception {
                 manager.getFirebaseAuth()
-                        .createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        .createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            emitter.onComplete();
+                            emitter.onSuccess(task);
                         }else {
                             emitter.onError(task.getException());
                         }

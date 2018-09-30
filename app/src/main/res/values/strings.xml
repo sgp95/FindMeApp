@@ -9,4 +9,7 @@
     <string name="patient_call_help">Necesitas Ayuda?</string>
     <!-- Menu Titles -->
     <string name="beacon_option">Lista de beacons</string>
+    <!-- User Types Description-->
+    <string name="user_type_caretaker">Al registrarse como cuidador tranda acceso a la informacion del paciente, su locaclizacion y la capacidad de modificar la informacion a la que este tiene acceso</string>
+    <string name="user_type_patient">Al registrar un usuario como paciente este vera la informacion que su cuidador publique y mandara la informacion del lugar en donde este y sus alrededores</string>
 </resources>

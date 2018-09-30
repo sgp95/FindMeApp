@@ -5,28 +5,29 @@ import com.google.firebase.auth.AuthResult;
 import com.guillen.santiago.findmeapp.data.firebase.Services.UserService;
 import com.guillen.santiago.findmeapp.data.model.User;
 
-import io.reactivex.MaybeSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-import io.reactivex.observers.DisposableMaybeObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class Login extends BaseInteractor {
+public class Register extends BaseInteractor {
+
     private UserService userService;
 
-    public Login() {
+    public Register(){
         super();
         userService = new UserService();
     }
 
-    public void login(String email, String password, DisposableMaybeObserver<User> observer){
+    public void registerUser(final User user, String password, DisposableSingleObserver<String> observer){
         Disposable disposable = userService
-                .loginUser(email, password)
-                .flatMap(new Function<Task<AuthResult>, MaybeSource<User>>() {
+                .RegisterUser(user.getEmail(), password)
+                .map(new Function<Task<AuthResult>, String>() {
                     @Override
-                    public MaybeSource<User> apply(Task<AuthResult> authResultTask) throws Exception {
-                        return userService.getUser(authResultTask.getResult().getUser().getUid());
+                    public String apply(Task<AuthResult> authResultTask) {
+                        userService.saveUserData(user, authResultTask.getResult().getUser().getUid());
+                        return authResultTask.getResult().getUser().getUid();
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -34,5 +35,4 @@ public class Login extends BaseInteractor {
                 .subscribeWith(observer);
         addDisposable(disposable);
     }
-
 }
