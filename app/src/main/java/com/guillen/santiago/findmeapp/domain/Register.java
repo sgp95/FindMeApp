@@ -5,6 +5,7 @@ import com.google.firebase.auth.AuthResult;
 import com.guillen.santiago.findmeapp.data.firebase.Services.UserService;
 import com.guillen.santiago.findmeapp.data.model.User;
 
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
@@ -23,11 +24,10 @@ public class Register extends BaseInteractor {
     public void registerUser(final User user, String password, DisposableSingleObserver<String> observer){
         Disposable disposable = userService
                 .RegisterUser(user.getEmail(), password)
-                .map(new Function<Task<AuthResult>, String>() {
+                .flatMap(new Function<Task<AuthResult>, Single<String>>() {
                     @Override
-                    public String apply(Task<AuthResult> authResultTask) {
-                        userService.saveUserData(user, authResultTask.getResult().getUser().getUid());
-                        return authResultTask.getResult().getUser().getUid();
+                    public Single<String> apply(Task<AuthResult> authResultTask) throws Exception {
+                        return userService.saveUserData(user, authResultTask.getResult().getUser().getUid());
                     }
                 })
                 .subscribeOn(Schedulers.io())

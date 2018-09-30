@@ -11,6 +11,8 @@ public interface RegisterUserContract {
     }
 
     interface Presenter{
-        void RegisterUser(User user);
+        void registerUser(User user, String password);
+
+        void dispose();
     }
 }

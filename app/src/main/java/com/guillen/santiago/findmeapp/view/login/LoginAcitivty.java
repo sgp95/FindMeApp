@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.guillen.santiago.findmeapp.R;
 import com.guillen.santiago.findmeapp.data.model.User;
 import com.guillen.santiago.findmeapp.view.careTaker.MainActivity;
+import com.guillen.santiago.findmeapp.view.register.RegisterUserActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,12 +44,17 @@ public class LoginAcitivty extends AppCompatActivity implements LoginContract.Vi
 
     @OnClick(R.id.btn_register)
     public void registerButtonClicked(){
-        startActivity(new Intent(LoginAcitivty.this, com.guillen.santiago.findmeapp.view.patient.MainActivity.class));
+        startActivity(new Intent(LoginAcitivty.this, RegisterUserActivity.class));
     }
 
     @Override
     public void onLoginSuccess(User userInfo) {
-        startActivity(new Intent(LoginAcitivty.this, MainActivity.class));
+        Log.d("rastro","user name: "+userInfo.getName()+" user email: "+userInfo.getEmail());
+        if(userInfo.getType().trim().equals("Cuidador")){
+            startActivity(new Intent(LoginAcitivty.this, MainActivity.class));
+        }else {
+            startActivity(new Intent(LoginAcitivty.this, com.guillen.santiago.findmeapp.view.patient.MainActivity.class));
+        }
     }
 
     @Override

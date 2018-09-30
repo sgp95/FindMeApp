@@ -1,20 +1,21 @@
 package com.guillen.santiago.findmeapp.data.model;
 
-import com.google.gson.annotations.SerializedName;
-
 public class User {
-    @SerializedName("email")
     private String email;
-    @SerializedName("imageUrl")
-    private String image;
-    @SerializedName("type")
-    private String userType;
-    @SerializedName("phone")
-    private int contactPhone;
-    @SerializedName("name")
+    private String imageUrl;
+    private String type;
+    private String contactPhone;
     private UserName name;
 
     public User() {
+    }
+
+    public User(String email, String imageUrl, String type, String contactPhone, UserName name) {
+        this.email = email;
+        this.imageUrl = imageUrl;
+        this.type = type;
+        this.contactPhone = contactPhone;
+        this.name = name;
     }
 
     public String getEmail() {
@@ -25,20 +26,28 @@ public class User {
         this.email = email;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getType() {
+        return type;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
     }
 
     public UserName getName() {
@@ -47,13 +56,5 @@ public class User {
 
     public void setName(UserName name) {
         this.name = name;
-    }
-
-    public int getContactPhone() {
-        return contactPhone;
-    }
-
-    public void setContactPhone(int contactPhone) {
-        this.contactPhone = contactPhone;
     }
 }

@@ -20,15 +20,15 @@ public class Login extends BaseInteractor {
         userService = new UserService();
     }
 
-    public void login(String email, String password, DisposableMaybeObserver<User> observer){
+    public void login(String email, String password, DisposableMaybeObserver<User> observer) {
         Disposable disposable = userService
                 .loginUser(email, password)
                 .flatMap(new Function<Task<AuthResult>, MaybeSource<User>>() {
-                    @Override
-                    public MaybeSource<User> apply(Task<AuthResult> authResultTask) throws Exception {
-                        return userService.getUser(authResultTask.getResult().getUser().getUid());
-                    }
-                })
+            @Override
+            public MaybeSource<User> apply(Task<AuthResult> authResultTask) throws Exception {
+                return userService.getUser(authResultTask.getResult().getUser().getUid());
+            }
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer);

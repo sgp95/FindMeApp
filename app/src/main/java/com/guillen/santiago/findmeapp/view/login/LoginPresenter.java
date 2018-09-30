@@ -14,27 +14,6 @@ public class LoginPresenter implements LoginContract.Presenter{
         this.view = view;
     }
 
-//    private DisposableMaybeObserver<Task<AuthResult>> createLoginObserver(){
-//        return new DisposableMaybeObserver<Task<AuthResult>>() {
-//            @Override
-//            public void onSuccess(Task<AuthResult> authResultTask) {
-//                view.onLoginSuccess();
-//                this.dispose();
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                view.onFailure((Exception)e);
-//                this.dispose();
-//            }
-//
-//            @Override
-//            public void onComplete() {
-//                this.dispose();
-//            }
-//        };
-//    }
-
     private DisposableMaybeObserver<User> createLoginObserver(){
         return new DisposableMaybeObserver<User>() {
             @Override

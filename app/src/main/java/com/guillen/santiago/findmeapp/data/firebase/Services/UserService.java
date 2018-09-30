@@ -12,9 +12,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.guillen.santiago.findmeapp.data.firebase.ReferencesManager;
 import com.guillen.santiago.findmeapp.data.model.User;
 
-import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
-import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeEmitter;
 import io.reactivex.MaybeOnSubscribe;
@@ -94,28 +91,29 @@ public class UserService {
         });
     }
 
-    public Completable saveUserData(final User user, final String userId){
-        return Completable.create(new CompletableOnSubscribe() {
+    public Single<String> saveUserData(final User user, final String userId){
+        return Single.create(new SingleOnSubscribe<String>() {
             @Override
-            public void subscribe(final CompletableEmitter emitter) throws Exception {
+            public void subscribe(final SingleEmitter<String> emitter) throws Exception {
                 manager.getUsersCollection()
                         .document(userId)
                         .set(user)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        emitter.onComplete();
-                    }
-                })
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                emitter.onSuccess(userId);
+                            }
+                        })
                         .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        emitter.onError(e);
-                    }
-                });
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                emitter.onError(e);
+                            }
+                        });
             }
         });
     }
+
 
     public Maybe<User> getUser(final  String userId){
         return Maybe.create(new MaybeOnSubscribe<User>() {
