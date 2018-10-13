@@ -10,11 +10,12 @@
     android:gravity="bottom">
 
     <ImageView
+        android:contentDescription="user image"
         android:id="@+id/img_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginBottom="20dp"
-        android:src="@mipmap/ic_launcher_round"/>
+        android:src="@drawable/ic_user_icon"/>
 
     <TextView
         android:id="@+id/tv_user_name"
@@ -22,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:textSize="16sp"
-        android:text="My header title"
         tools:text="Admin Test"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
     <TextView
@@ -30,7 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:text="My header title"
         tools:text="Admin_Test@gmail.com"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 

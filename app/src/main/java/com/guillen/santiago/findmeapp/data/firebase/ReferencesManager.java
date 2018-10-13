@@ -28,11 +28,11 @@ public class ReferencesManager {
         return usersCollection;
     }
 
-    public void setUsersCollection(CollectionReference usersCollection) {
-        this.usersCollection = usersCollection;
-    }
-
-    public CollectionReference getFamilyCollection(String userId) {
-        return usersCollection.document(userId).collection("Family");
+    public CollectionReference getPatientsCollection(String userId, boolean isCareTaker) {
+        if(isCareTaker){
+            return usersCollection.document(userId).collection("Patients");
+        }else {
+            return FirebaseFirestore.getInstance().collection("Patients");
+        }
     }
 }

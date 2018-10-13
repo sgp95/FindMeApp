@@ -15,6 +15,8 @@ public interface LoginContract {
 
         void loginUser(String email, String password);
 
+        void setCurrentUser(User currentUser);
+
         void dispose();
     }
 }

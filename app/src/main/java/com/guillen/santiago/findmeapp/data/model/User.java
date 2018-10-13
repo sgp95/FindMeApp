@@ -1,12 +1,30 @@
 package com.guillen.santiago.findmeapp.data.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+@Entity(tableName = "current_user")
 public class User {
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "id")
+    private String id;
+    @ColumnInfo(name = "email")
     private String email;
+    @ColumnInfo(name = "image_url")
     private String imageUrl;
+    @ColumnInfo(name = "type")
     private String type;
+    @ColumnInfo(name = "contact_phone")
     private String contactPhone;
+    @Embedded
     private UserName name;
 
+    @Ignore
     public User() {
     }
 
@@ -16,6 +34,14 @@ public class User {
         this.type = type;
         this.contactPhone = contactPhone;
         this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEmail() {

@@ -1,16 +1,22 @@
 package com.guillen.santiago.findmeapp.view.login;
 
+import android.util.Log;
+
 import com.guillen.santiago.findmeapp.data.model.User;
+import com.guillen.santiago.findmeapp.domain.CacheData;
 import com.guillen.santiago.findmeapp.domain.Login;
 
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableMaybeObserver;
 
 public class LoginPresenter implements LoginContract.Presenter{
     private Login loginInteractor;
+    private CacheData cacheInteractor;
     private LoginContract.View view;
 
     public LoginPresenter(LoginContract.View view) {
         loginInteractor = new Login();
+        cacheInteractor = new CacheData();
         this.view = view;
     }
 
@@ -39,6 +45,21 @@ public class LoginPresenter implements LoginContract.Presenter{
     @Override
     public void loginUser(String email, String password) {
         loginInteractor.login(email, password, createLoginObserver());
+    }
+
+    @Override
+    public void setCurrentUser(User currentUser) {
+        cacheInteractor.setCurrentUser(currentUser, new DisposableCompletableObserver() {
+            @Override
+            public void onComplete() {
+                Log.d("rastro","Current user saved");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d("rastro","Current not saved, Failed");
+            }
+        });
     }
 
     @Override

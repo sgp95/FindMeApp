@@ -12,14 +12,18 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.guillen.santiago.findmeapp.R;
+import com.guillen.santiago.findmeapp.data.model.User;
 import com.guillen.santiago.findmeapp.view.careTaker.beacons.BeaconsFragment;
+import com.guillen.santiago.findmeapp.view.careTaker.patients.PatientListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainContract.View{
 
     @BindView(R.id.dl_main)
     protected DrawerLayout mainDrawerLayout;
@@ -28,12 +32,20 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tb_main)
     protected Toolbar mainToolbar;
 
+    private TextView tvUserName;
+    private TextView tvUserEmail;
+
+    private MainContract.Presenter presenter;
+    private View headerView;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_care_taker);
         ButterKnife.bind(this);
+
+        presenter = new MainPresenter(this);
 
         setUpView();
 
@@ -72,11 +84,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 item.setChecked(true);
+                switch (item.getItemId()){
+                    case R.id.option_home:
+                        showDefaultFragment();
+                        break;
+                    case R.id.option_patients:
+                        PatientListFragment patientListFragment = new PatientListFragment();
+                        showFragment(patientListFragment, "tag", false);
+                        //TODO go to patient list
+                        break;
+                    case R.id.option_logout:
+                        presenter.logout();
+
+                }
                 //TODO logic to obtain id of item clicked and show respective view
                 mainDrawerLayout.closeDrawers();
                 return true;
             }
         });
+
+        headerView = mainNavigationView.getHeaderView(0);
+        tvUserName = headerView.findViewById(R.id.tv_user_name);
+        tvUserEmail = headerView.findViewById(R.id.tv_user_email);
+
+        presenter.getCurrentUser();
     }
 
     public void setBarTitle(String title){
@@ -85,12 +116,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void showDefaultFragment(){
         BeaconsFragment beaconsFragment = new BeaconsFragment();
-        showFragment(beaconsFragment);
+        showFragment(beaconsFragment, BeaconsFragment.TAG, true);
     }
 
-    private void showFragment(Fragment fragment){
+    private void showFragment(Fragment fragment, String tag, boolean addToBackStack){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment, tag);
+        fragmentTransaction.addToBackStack(addToBackStack ? tag : null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onCurrentUserLoaded(User currentUser) {
+        String userName = currentUser.getName().getFirst()+" "+currentUser.getName().getLast();
+        tvUserName.setText(userName);
+        tvUserEmail.setText(currentUser.getEmail());
+    }
+
+    @Override
+    public void onCurrentUserFailed() {
+        presenter.logout();
+        //TODO send To Login
     }
 }

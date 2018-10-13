@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.BleSignal;
 import com.google.android.gms.nearby.messages.Distance;
 import com.google.android.gms.nearby.messages.Message;
@@ -24,8 +23,11 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class BeaconsFragment extends Fragment implements BeaconsContract.View {
+
+    public static final String TAG = "LIST_BEACONS_FRAGMENT";
 
     @BindView(R.id.tv_beacon_status)
     protected TextView tvBeaconStatus;
@@ -38,8 +40,8 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
 
     private MainActivity mainActivity;
     private MessageListener messageListener;
-//    private Message message;
-//    private Distance newDistance;
+
+    private Unbinder unbinder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,14 +53,12 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
     @Override
     public void onStart() {
         super.onStart();
-//        Nearby.getMessagesClient(mainActivity).publish(message);
-        Nearby.getMessagesClient(mainActivity).subscribe(messageListener);
+//        Nearby.getMessagesClient(mainActivity).subscribe(messageListener); TODO enable when ready to work with beacons
     }
 
     @Override
     public void onStop() {
-//        Nearby.getMessagesClient(mainActivity).unpublish(message);
-        Nearby.getMessagesClient(mainActivity).unsubscribe(messageListener);
+//        Nearby.getMessagesClient(mainActivity).unsubscribe(messageListener); TODO enable when ready to work with beacons
         super.onStop();
     }
 
@@ -66,7 +66,7 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beacon_list, container, false);
-        ButterKnife.bind(this,view);
+        unbinder = ButterKnife.bind(this,view);
         return view;
     }
 
@@ -74,7 +74,13 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setUpNearbyBeaconsListener();
+//        setUpNearbyBeaconsListener(); TODO enable when ready to work with beacons
+    }
+
+    @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
     }
 
     private void setUpNearbyBeaconsListener(){
@@ -117,6 +123,5 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
             }
         };
 
-//        message = new Message("Hello World".getBytes());
     }
 }

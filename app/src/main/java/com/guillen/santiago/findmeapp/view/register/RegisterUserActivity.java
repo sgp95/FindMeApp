@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.guillen.santiago.findmeapp.R;
 import com.guillen.santiago.findmeapp.data.model.User;
 import com.guillen.santiago.findmeapp.data.model.UserName;
+import com.guillen.santiago.findmeapp.view.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +45,8 @@ public class RegisterUserActivity extends AppCompatActivity implements RegisterU
     private RegisterUserPresenter presenter;
     private User user;
 
+    public static final int INTENT_CODE = 1;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +62,6 @@ public class RegisterUserActivity extends AppCompatActivity implements RegisterU
         presenter = new RegisterUserPresenter(this);
 
         user = new User();
-    }
-
-    private void setLoadingView(boolean isLoading){
-        pbRegisterUser.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
 
     private void setUserTypeListener(){
@@ -103,7 +102,7 @@ public class RegisterUserActivity extends AppCompatActivity implements RegisterU
 
     @OnClick(R.id.btnRegisterUser)
     public void RegisterUser(){
-        setLoadingView(true);
+        Utils.setLoadingView(pbRegisterUser, true);
         UserName name = new UserName();
         name.setFirst(etUserFirstName.getText().toString().trim());
         name.setLast(etUserLastName.getText().toString().trim());
@@ -121,13 +120,16 @@ public class RegisterUserActivity extends AppCompatActivity implements RegisterU
 
     @Override
     public void onRegisterSuccess(String userId) {
-        setLoadingView(false);
-        //TODO go back to the login and show the successful message
+        goBackToLogin(RESULT_OK);
     }
 
     @Override
     public void onRegisterFailure() {
-        setLoadingView(false);
-        //TODO go back to login and show failure message
+        goBackToLogin(RESULT_CANCELED);
+    }
+
+    private void goBackToLogin(int resultCode){
+        setResult(resultCode);
+        finish();
     }
 }

@@ -5,5 +5,13 @@
             android:id="@+id/option_home"
             android:icon="@drawable/ic_menu_beacons"
             android:title="@string/beacon_option"/>
+        <item
+            android:id="@+id/option_patients"
+            android:icon="@drawable/ic_patient"
+            android:title="@string/patients_option"/>
+        <item
+            android:id="@+id/option_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/logout_option"/>
     </group>
 </menu>

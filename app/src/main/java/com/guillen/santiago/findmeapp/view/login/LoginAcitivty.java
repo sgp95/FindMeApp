@@ -6,10 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.guillen.santiago.findmeapp.R;
 import com.guillen.santiago.findmeapp.data.model.User;
+import com.guillen.santiago.findmeapp.view.Utils;
 import com.guillen.santiago.findmeapp.view.careTaker.MainActivity;
 import com.guillen.santiago.findmeapp.view.register.RegisterUserActivity;
 
@@ -22,8 +24,11 @@ public class LoginAcitivty extends AppCompatActivity implements LoginContract.Vi
     protected EditText etEmailLogin;
     @BindView(R.id.et_password_login)
     protected EditText etPasswordLogin;
+    @BindView(R.id.pbLoginUser)
+    protected ProgressBar pbLoginUser;
 
     private LoginPresenter presenter;
+    private Toast toast;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +41,7 @@ public class LoginAcitivty extends AppCompatActivity implements LoginContract.Vi
 
     @OnClick(R.id.btn_login)
     public void loginButtonClicked(){
+        Utils.setLoadingView(pbLoginUser, true);
         presenter.loginUser(
                 etEmailLogin.getText().toString(),
                 etPasswordLogin.getText().toString()
@@ -44,27 +50,41 @@ public class LoginAcitivty extends AppCompatActivity implements LoginContract.Vi
 
     @OnClick(R.id.btn_register)
     public void registerButtonClicked(){
-        startActivity(new Intent(LoginAcitivty.this, RegisterUserActivity.class));
+        startActivityForResult(new Intent(LoginAcitivty.this, RegisterUserActivity.class), RegisterUserActivity.INTENT_CODE);
     }
 
     @Override
     public void onLoginSuccess(User userInfo) {
         Log.d("rastro","user name: "+userInfo.getName()+" user email: "+userInfo.getEmail());
+        presenter.setCurrentUser(userInfo);
         if(userInfo.getType().trim().equals("Cuidador")){
             startActivity(new Intent(LoginAcitivty.this, MainActivity.class));
         }else {
             startActivity(new Intent(LoginAcitivty.this, com.guillen.santiago.findmeapp.view.patient.MainActivity.class));
         }
+        Utils.setLoadingView(pbLoginUser, false);
     }
 
     @Override
     public void onFailure(Exception e) {
-        Toast.makeText(this,"login Failed", Toast.LENGTH_SHORT).show();
+        Utils.setLoadingView(pbLoginUser, false);
+        Utils.createToastMessage(toast, this, "login Failed");
     }
 
     @Override
     protected void onDestroy() {
         presenter.dispose();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == RegisterUserActivity.INTENT_CODE){
+            if(resultCode == RESULT_OK){
+                Utils.createToastMessage(toast, this, "Usuario creado exitosamente");
+            }else if(resultCode == RESULT_CANCELED) {
+                Utils.createToastMessage(toast, this, "Registro de usuario fallido");
+            }
+        }
     }
 }

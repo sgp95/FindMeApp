@@ -125,7 +125,10 @@ public class UserService {
                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        emitter.onSuccess(documentSnapshot.toObject(User.class));
+                        User user = documentSnapshot.toObject(User.class);
+                        assert user != null;
+                        user.setId(userId);
+                        emitter.onSuccess(user);
                     }
                 })
                         .addOnFailureListener(new OnFailureListener() {

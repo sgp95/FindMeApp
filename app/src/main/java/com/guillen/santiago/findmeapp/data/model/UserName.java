@@ -1,14 +1,20 @@
 package com.guillen.santiago.findmeapp.data.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Ignore;
+
 import com.google.gson.annotations.SerializedName;
 
 public class UserName {
 
+    @ColumnInfo(name = "first_name")
     @SerializedName("first")
     private String first;
+    @ColumnInfo(name = "last_name")
     @SerializedName("last")
     private String last;
 
+    @Ignore
     public UserName() {
     }
 
