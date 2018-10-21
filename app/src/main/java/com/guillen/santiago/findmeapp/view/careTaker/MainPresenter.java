@@ -42,7 +42,7 @@ public class MainPresenter implements MainContract.Presenter {
         cacheInteractor.logout(new DisposableCompletableObserver() {
             @Override
             public void onComplete() {
-                Log.d("rastro","Logout success");
+                view.onLogout();
             }
 
             @Override

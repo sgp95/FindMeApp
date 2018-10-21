@@ -4,4 +4,15 @@
         <item>Cuidador</item>
         <item>Paciente</item>
     </string-array>
+    <string-array name="DocumentTypes" >
+        <item>DNI</item>
+    </string-array>
+    <string-array name="sickness" >
+        <item>Alzheimer</item>
+        <item>Demencia</item>
+    </string-array>
+    <string-array name="sicknessLevel" >
+        <item>Inicio</item>
+        <item>Intermedio</item>
+    </string-array>
 </resources>

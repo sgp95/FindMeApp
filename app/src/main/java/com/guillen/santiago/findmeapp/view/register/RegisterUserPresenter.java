@@ -2,7 +2,7 @@ package com.guillen.santiago.findmeapp.view.register;
 
 import android.util.Log;
 
-import com.guillen.santiago.findmeapp.data.model.User;
+import com.guillen.santiago.findmeapp.data.model.PatientModel;
 import com.guillen.santiago.findmeapp.domain.Register;
 
 import io.reactivex.observers.DisposableSingleObserver;
@@ -35,8 +35,8 @@ public class RegisterUserPresenter implements RegisterUserContract.Presenter {
     }
 
     @Override
-    public void registerUser(User user, String password) {
-        registerInteractor.registerUser(user, password, createRegisterObserver());
+    public void registerPatient(String email, String password, PatientModel patient, String careTakerId) {
+        registerInteractor.registerPatient(careTakerId, patient, email, password, createRegisterObserver());
     }
 
     @Override

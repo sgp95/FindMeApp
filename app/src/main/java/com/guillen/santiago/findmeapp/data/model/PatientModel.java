@@ -5,7 +5,7 @@ public class PatientModel {
     private int number;
     private String name;
     private String surname;
-    private String documentType;
+    private String documentType = "DNI"; //set DNI as default
     private int documentNumber;
     private int age;
     private String sex;
@@ -62,12 +62,12 @@ public class PatientModel {
     }
 
     public String getDocumentType() {
-        return documentType;
+        return "DNI";
     }
 
-    public void setDocumentType(String documentType) {
-        this.documentType = documentType;
-    }
+//    public void setDocumentType(String documentType) {
+//        this.documentType = documentType;
+//    }
 
     public int getDocumentNumber() {
         return documentNumber;

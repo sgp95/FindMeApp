@@ -23,8 +23,10 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.nearby.messages.API_KEY"
-            android:value="AIzaSyDnf6lbZVa6QYwiwYEUhdjcrZYPIpJhagA" />
-        <activity android:name=".view.splash.SplashScreenActivity"
+            android:value="AIzaSyAyPGSyEYNbayT03J_KbBwlbIg4iI39V1I" />
+
+        <activity
+            android:name=".view.splash.SplashScreenActivity"
             android:theme="@style/AppTheme.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,11 +34,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.login.LoginAcitivty"/>
-        <activity android:name=".view.register.RegisterUserActivity"/>
-        <activity android:name=".view.patient.MainActivity"/>
-        <activity android:name=".view.careTaker.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".view.login.LoginAcitivty" />
+        <activity android:name=".view.register.RegisterUserActivity" />
+        <activity android:name=".view.patient.MainActivity" />
+        <activity
+            android:name=".view.careTaker.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver
+            android:name=".view.patient.receiver.BeaconMessageReceiver"
+            android:exported="true"
+            android:enabled="true"/>
+        <service
+            android:name=".view.patient.service.MessageService"
+            android:enabled="true" />
     </application>
 
 </manifest>

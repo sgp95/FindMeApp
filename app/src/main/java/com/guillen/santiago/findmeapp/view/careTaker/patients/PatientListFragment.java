@@ -1,9 +1,9 @@
 package com.guillen.santiago.findmeapp.view.careTaker.patients;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,21 +15,22 @@ import android.view.ViewGroup;
 import com.guillen.santiago.findmeapp.R;
 import com.guillen.santiago.findmeapp.data.model.PatientModel;
 import com.guillen.santiago.findmeapp.view.careTaker.MainActivity;
+import com.guillen.santiago.findmeapp.view.register.RegisterUserActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class PatientListFragment extends Fragment implements PatientListContract.View, PatientAdapter.AdapterListener {
 
-    @BindView(R.id.ftBtnAddPatient)
-    protected FloatingActionButton ftBtnAddPatient;
     @BindView(R.id.rvPatients)
     protected RecyclerView rvPatients;
 
     private MainActivity mainActivity;
     private PatientListContract.Presenter presenter;
     private PatientAdapter adapter;
+    private String currentUserId;
 
     private Unbinder unbinder;
 
@@ -52,6 +53,9 @@ public class PatientListFragment extends Fragment implements PatientListContract
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Bundle bundle = getArguments();
+        currentUserId = bundle.getString(MainActivity.CURRENT_USER_ID);
+
         setUpPatientAdapter();
         presenter = new PatientListPresenter(this);
         presenter.observeCareTakerPatients();
@@ -66,19 +70,16 @@ public class PatientListFragment extends Fragment implements PatientListContract
 
     @Override
     public void onPatientAdded(PatientModel patient) {
-        Log.d("rastro","Patient added id: "+patient.getId()+" name: "+patient.getName());
         adapter.addPatient(patient);
     }
 
     @Override
     public void onPatientModified(PatientModel patient) {
-        Log.d("rastro","Patient modified id: "+patient.getId()+" name: "+patient.getName());
         adapter.modifyPatient(patient);
     }
 
     @Override
     public void onPatientRemoved(PatientModel patient) {
-        Log.d("rastro","Patient removed id: "+patient.getId()+" name: "+patient.getName());
         adapter.removePatient(patient);
     }
 
@@ -92,10 +93,26 @@ public class PatientListFragment extends Fragment implements PatientListContract
         Log.d("rastro","Patient clicked ");
     }
 
+    @OnClick(R.id.ftBtnAddPatient)
+    public void onNewPatientButtonClicked(){
+        Intent intent = new Intent(mainActivity, RegisterUserActivity.class);
+        intent.putExtra(MainActivity.CURRENT_USER_ID,currentUserId);
+        startActivityForResult(intent, RegisterUserActivity.INTENT_CODE);
+    }
     private void setUpPatientAdapter(){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvPatients.setLayoutManager(layoutManager);
         adapter = new PatientAdapter(this);
         rvPatients.setAdapter(adapter);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if(requestCode == RegisterUserActivity.INTENT_CODE){
+//            if(resultCode == getActivity().RESULT_OK){
+//            }else if(resultCode == getActivity().RESULT_CANCELED) {
+//
+//            }
+//        }
     }
 }

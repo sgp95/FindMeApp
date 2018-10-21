@@ -10,16 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.BleSignal;
 import com.google.android.gms.nearby.messages.Distance;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 import com.guillen.santiago.findmeapp.R;
 import com.guillen.santiago.findmeapp.view.careTaker.MainActivity;
-import com.guillen.santiago.findmeapp.view.model.BeaconAttachment;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +37,7 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
 
     private MainActivity mainActivity;
     private MessageListener messageListener;
+    private Message message;
 
     private Unbinder unbinder;
 
@@ -48,17 +46,21 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
         super.onCreate(savedInstanceState);
         mainActivity = (MainActivity)getActivity();
         mainActivity.setBarTitle("Beacons");
+
+        setUpNearbyBeaconsListener(); // TODO enable when ready to work with beacons
     }
 
     @Override
     public void onStart() {
         super.onStart();
-//        Nearby.getMessagesClient(mainActivity).subscribe(messageListener); TODO enable when ready to work with beacons
+        Nearby.getMessagesClient(mainActivity).publish(message);
+        Nearby.getMessagesClient(mainActivity).subscribe(messageListener); //TODO enable when ready to work with beacons
     }
 
     @Override
     public void onStop() {
-//        Nearby.getMessagesClient(mainActivity).unsubscribe(messageListener); TODO enable when ready to work with beacons
+        Nearby.getMessagesClient(mainActivity).unpublish(message);
+        Nearby.getMessagesClient(mainActivity).unsubscribe(messageListener); //TODO enable when ready to work with beacons
         super.onStop();
     }
 
@@ -74,7 +76,7 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        setUpNearbyBeaconsListener(); TODO enable when ready to work with beacons
+//        setUpNearbyBeaconsListener(); // TODO enable when ready to work with beacons
     }
 
     @Override
@@ -90,16 +92,16 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
                 super.onFound(message);
                 Log.d("rastro", "Found message: " + new String(message.getContent()));
 
-                try {
-                    JSONObject jsonObject = new JSONObject(new String(message.getContent()));
-                    BeaconAttachment beaconAttachment = BeaconAttachment.fromJson(jsonObject);
-                    tvBeaconStatus.setText("Found");
-                    tvBeaconRoom.setText(beaconAttachment.getRoom());
-                    tvBeaconType.setText(beaconAttachment.getType());
-
-                } catch (JSONException e) {
-                    Log.e("rastro", "Could not parse malformed JSON");
-                }
+//                try {
+//                    JSONObject jsonObject = new JSONObject(new String(message.getContent()));
+//                    BeaconAttachment beaconAttachment = BeaconAttachment.fromJson(jsonObject);
+//                    tvBeaconStatus.setText("Found");
+//                    tvBeaconRoom.setText(beaconAttachment.getRoom());
+//                    tvBeaconType.setText(beaconAttachment.getType());
+//
+//                } catch (JSONException e) {
+//                    Log.e("rastro", "Could not parse malformed JSON");
+//                }
 
             }
 
@@ -122,6 +124,8 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
                 super.onBleSignalChanged(message, bleSignal);
             }
         };
+
+        message = new Message("Hello World".getBytes());
 
     }
 }

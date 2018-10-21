@@ -9,6 +9,8 @@ public interface MainContract {
         void onCurrentUserLoaded(User currentUser);
 
         void onCurrentUserFailed();
+
+        void onLogout();
     }
 
     interface Presenter{

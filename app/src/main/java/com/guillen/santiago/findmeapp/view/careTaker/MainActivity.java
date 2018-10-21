@@ -1,5 +1,6 @@
 package com.guillen.santiago.findmeapp.view.careTaker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,11 +20,14 @@ import com.guillen.santiago.findmeapp.R;
 import com.guillen.santiago.findmeapp.data.model.User;
 import com.guillen.santiago.findmeapp.view.careTaker.beacons.BeaconsFragment;
 import com.guillen.santiago.findmeapp.view.careTaker.patients.PatientListFragment;
+import com.guillen.santiago.findmeapp.view.login.LoginAcitivty;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View{
+
+    public static final String CURRENT_USER_ID = "currentUserId";
 
     @BindView(R.id.dl_main)
     protected DrawerLayout mainDrawerLayout;
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private MainContract.Presenter presenter;
     private View headerView;
+    private String currentUserId;
 
 
     @Override
@@ -90,8 +95,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                         break;
                     case R.id.option_patients:
                         PatientListFragment patientListFragment = new PatientListFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(CURRENT_USER_ID, currentUserId);
+                        patientListFragment.setArguments(bundle);
                         showFragment(patientListFragment, "tag", false);
-                        //TODO go to patient list
                         break;
                     case R.id.option_logout:
                         presenter.logout();
@@ -129,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onCurrentUserLoaded(User currentUser) {
         String userName = currentUser.getName().getFirst()+" "+currentUser.getName().getLast();
+        currentUserId = currentUser.getId();
         tvUserName.setText(userName);
         tvUserEmail.setText(currentUser.getEmail());
     }
@@ -137,5 +145,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void onCurrentUserFailed() {
         presenter.logout();
         //TODO send To Login
+    }
+
+    @Override
+    public void onLogout() {
+        Intent intent = new Intent(this, LoginAcitivty.class);
+        startActivity(intent);
+        finish();
     }
 }

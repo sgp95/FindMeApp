@@ -4,15 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.guillen.santiago.findmeapp.R;
+import com.guillen.santiago.findmeapp.data.model.PatientModel;
 import com.guillen.santiago.findmeapp.data.model.User;
 import com.guillen.santiago.findmeapp.view.Utils;
 import com.guillen.santiago.findmeapp.view.careTaker.MainActivity;
+import com.guillen.santiago.findmeapp.view.model.UserType;
 import com.guillen.santiago.findmeapp.view.register.RegisterUserActivity;
 
 import butterknife.BindView;
@@ -26,6 +28,8 @@ public class LoginAcitivty extends AppCompatActivity implements LoginContract.Vi
     protected EditText etPasswordLogin;
     @BindView(R.id.pbLoginUser)
     protected ProgressBar pbLoginUser;
+    @BindView(R.id.swIsPatient)
+    protected Switch swIsPatient;
 
     private LoginPresenter presenter;
     private Toast toast;
@@ -44,7 +48,8 @@ public class LoginAcitivty extends AppCompatActivity implements LoginContract.Vi
         Utils.setLoadingView(pbLoginUser, true);
         presenter.loginUser(
                 etEmailLogin.getText().toString(),
-                etPasswordLogin.getText().toString()
+                etPasswordLogin.getText().toString(),
+                swIsPatient.isChecked()
         );
     }
 
@@ -55,13 +60,26 @@ public class LoginAcitivty extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void onLoginSuccess(User userInfo) {
-        Log.d("rastro","user name: "+userInfo.getName()+" user email: "+userInfo.getEmail());
         presenter.setCurrentUser(userInfo);
-        if(userInfo.getType().trim().equals("Cuidador")){
-            startActivity(new Intent(LoginAcitivty.this, MainActivity.class));
+        if(userInfo.getType().trim().equals(UserType.CARE_TAKER.getValue())){
+            Intent intent = new Intent(LoginAcitivty.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }else {
             startActivity(new Intent(LoginAcitivty.this, com.guillen.santiago.findmeapp.view.patient.MainActivity.class));
         }
+        Utils.setLoadingView(pbLoginUser, false);
+    }
+
+    @Override
+    public void onLoginPatientSuccess(PatientModel patient) {
+        User user = new User();
+        user.setId(patient.getId());
+        user.setType(UserType.PATIENT.getValue());
+        user.setEmail(etEmailLogin.getText().toString());
+        presenter.setCurrentUser(user);
+        startActivity(new Intent(LoginAcitivty.this, com.guillen.santiago.findmeapp.view.patient.MainActivity.class));
         Utils.setLoadingView(pbLoginUser, false);
     }
 

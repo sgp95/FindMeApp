@@ -2,6 +2,7 @@ package com.guillen.santiago.findmeapp.view.login;
 
 import android.util.Log;
 
+import com.guillen.santiago.findmeapp.data.model.PatientModel;
 import com.guillen.santiago.findmeapp.data.model.User;
 import com.guillen.santiago.findmeapp.domain.CacheData;
 import com.guillen.santiago.findmeapp.domain.Login;
@@ -41,10 +42,35 @@ public class LoginPresenter implements LoginContract.Presenter{
         };
     }
 
+    private DisposableMaybeObserver<PatientModel> createLoginAsPatientObserver(){
+        return new DisposableMaybeObserver<PatientModel>() {
+            @Override
+            public void onSuccess(PatientModel patientModel) {
+                view.onLoginPatientSuccess(patientModel);
+                this.dispose();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                view.onFailure((Exception) e);
+                this.dispose();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+    }
+
 
     @Override
-    public void loginUser(String email, String password) {
-        loginInteractor.login(email, password, createLoginObserver());
+    public void loginUser(String email, String password, boolean asPatient) {
+        if(asPatient){
+            loginInteractor.loginAsPatient(email, password, createLoginAsPatientObserver());
+        }else {
+            loginInteractor.login(email, password, createLoginObserver());
+        }
     }
 
     @Override

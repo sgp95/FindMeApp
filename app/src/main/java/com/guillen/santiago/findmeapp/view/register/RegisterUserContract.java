@@ -1,6 +1,6 @@
 package com.guillen.santiago.findmeapp.view.register;
 
-import com.guillen.santiago.findmeapp.data.model.User;
+import com.guillen.santiago.findmeapp.data.model.PatientModel;
 
 public interface RegisterUserContract {
 
@@ -11,7 +11,7 @@ public interface RegisterUserContract {
     }
 
     interface Presenter{
-        void registerUser(User user, String password);
+        void registerPatient(String email, String password, PatientModel patient, String careTakerId);
 
         void dispose();
     }
