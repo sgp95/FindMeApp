@@ -10,11 +10,13 @@ public class ReferencesManager {
     private StorageReference storageReference;
     private CollectionReference usersCollection;
     private CollectionReference patientCollection;
+    private CollectionReference beaconsCollection;
 
     public ReferencesManager() {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         usersCollection = firebaseFirestore.collection("Users");
         patientCollection = FirebaseFirestore.getInstance().collection("Patients");
+        beaconsCollection = firebaseFirestore.collection("Beacons");
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
@@ -32,6 +34,10 @@ public class ReferencesManager {
 
     public CollectionReference getPatientPosition(String patientId){
         return patientCollection.document(patientId).collection("Position");
+    }
+
+    public CollectionReference getBeaconsCollection() {
+        return beaconsCollection;
     }
 
     public CollectionReference getPatientsCollection(String userId, boolean isCareTaker) {

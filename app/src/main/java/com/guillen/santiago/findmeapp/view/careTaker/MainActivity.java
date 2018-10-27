@@ -1,6 +1,5 @@
 package com.guillen.santiago.findmeapp.view.careTaker;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +19,6 @@ import com.guillen.santiago.findmeapp.R;
 import com.guillen.santiago.findmeapp.data.model.User;
 import com.guillen.santiago.findmeapp.view.careTaker.beacons.BeaconsFragment;
 import com.guillen.santiago.findmeapp.view.careTaker.patients.PatientListFragment;
-import com.guillen.santiago.findmeapp.view.login.LoginAcitivty;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -149,8 +147,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void onLogout() {
-        Intent intent = new Intent(this, LoginAcitivty.class);
-        startActivity(intent);
-        finish();
+        System.exit(0);
     }
 }

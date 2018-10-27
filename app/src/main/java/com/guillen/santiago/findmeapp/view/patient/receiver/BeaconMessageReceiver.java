@@ -25,6 +25,13 @@ public class BeaconMessageReceiver extends BroadcastReceiver {
 
                 context.startService(newIntent);
             }
+
+
+            @Override
+            public void onLost(Message message) {
+                super.onLost(message);
+                Log.d("rastro", "Message Lost in Background ");
+            }
         });
     }
 }

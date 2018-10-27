@@ -63,7 +63,7 @@ public class LoginAcitivty extends AppCompatActivity implements LoginContract.Vi
         presenter.setCurrentUser(userInfo);
         if(userInfo.getType().trim().equals(UserType.CARE_TAKER.getValue())){
             Intent intent = new Intent(LoginAcitivty.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         }else {
@@ -79,7 +79,9 @@ public class LoginAcitivty extends AppCompatActivity implements LoginContract.Vi
         user.setType(UserType.PATIENT.getValue());
         user.setEmail(etEmailLogin.getText().toString());
         presenter.setCurrentUser(user);
-        startActivity(new Intent(LoginAcitivty.this, com.guillen.santiago.findmeapp.view.patient.MainActivity.class));
+        Intent intent = new Intent(LoginAcitivty.this, com.guillen.santiago.findmeapp.view.patient.MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         Utils.setLoadingView(pbLoginUser, false);
     }
 

@@ -1,33 +1,33 @@
-package com.guillen.santiago.findmeapp.view.careTaker.beacons;
+package com.guillen.santiago.findmeapp.view.careTaker.patientDetail;
 
 import android.util.Log;
 
 import com.guillen.santiago.findmeapp.data.model.BeaconModel;
 import com.guillen.santiago.findmeapp.data.model.ObservableModel;
-import com.guillen.santiago.findmeapp.domain.Beacons;
+import com.guillen.santiago.findmeapp.domain.Patient;
 
 import io.reactivex.observers.DisposableObserver;
 
-public class BeaconsPresenter implements BeaconsContract.Presenter {
+public class PatientDetailPresenter implements PatientDetailContract.Presenter {
 
-    private Beacons beaconsInteractor;
-    private BeaconsContract.View view;
+    private Patient patientInteractor;
+    private PatientDetailContract.View view;
 
-    public BeaconsPresenter(BeaconsContract.View view) {
-        beaconsInteractor = new Beacons();
+    public PatientDetailPresenter(PatientDetailContract.View view) {
+        patientInteractor = new Patient();
         this.view = view;
     }
 
-    private DisposableObserver<ObservableModel<BeaconModel>> createBeaconsObserver(){
+    private DisposableObserver<ObservableModel<BeaconModel>> createPositionObserver(){
         return new DisposableObserver<ObservableModel<BeaconModel>>() {
             @Override
             public void onNext(ObservableModel<BeaconModel> beaconModelObservableModel) {
                 if(beaconModelObservableModel.isAdded()){
-                    view.onBeaconAdded(beaconModelObservableModel.getDataModel());
+                    view.onPositionAdded(beaconModelObservableModel.getDataModel());
                 }else if(beaconModelObservableModel.isModified()){
-                    view.onBeaconModified(beaconModelObservableModel.getDataModel());
+                    view.onPositionModified(beaconModelObservableModel.getDataModel());
                 }else if(beaconModelObservableModel.isRemoved()) {
-                    view.onBeaconRemoved(beaconModelObservableModel.getDataModel());
+                    view.onPositionRemoved(beaconModelObservableModel.getDataModel());
                 }
             }
 
@@ -43,13 +43,14 @@ public class BeaconsPresenter implements BeaconsContract.Presenter {
             }
         };
     }
+
     @Override
-    public void getBeacons() {
-        beaconsInteractor.observeBeacons(createBeaconsObserver());
+    public void observePostion(String patientId) {
+        patientInteractor.observePatientPostiiton(patientId, createPositionObserver());
     }
 
     @Override
     public void dispose() {
-        beaconsInteractor.dispose();
+        patientInteractor.dispose();
     }
 }

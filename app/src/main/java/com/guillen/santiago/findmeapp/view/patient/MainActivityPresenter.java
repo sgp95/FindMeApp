@@ -5,6 +5,7 @@ import android.util.Log;
 import com.guillen.santiago.findmeapp.data.model.User;
 import com.guillen.santiago.findmeapp.domain.CacheData;
 
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableMaybeObserver;
 
 public class MainActivityPresenter implements MainActivityContract.Presenter {
@@ -32,6 +33,21 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
             @Override
             public void onComplete() {
 
+            }
+        });
+    }
+
+    @Override
+    public void logout() {
+        cacheInteractor.logout(new DisposableCompletableObserver() {
+            @Override
+            public void onComplete() {
+                view.onLogout();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d("rastro","Logout failure");
             }
         });
     }

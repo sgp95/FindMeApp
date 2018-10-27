@@ -4,41 +4,30 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.google.android.gms.nearby.Nearby;
-import com.google.android.gms.nearby.messages.BleSignal;
-import com.google.android.gms.nearby.messages.Distance;
-import com.google.android.gms.nearby.messages.Message;
-import com.google.android.gms.nearby.messages.MessageListener;
 import com.guillen.santiago.findmeapp.R;
+import com.guillen.santiago.findmeapp.data.model.BeaconModel;
 import com.guillen.santiago.findmeapp.view.careTaker.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class BeaconsFragment extends Fragment implements BeaconsContract.View {
+public class BeaconsFragment extends Fragment implements BeaconsContract.View, BeaconAdapter.AdapterListener {
 
     public static final String TAG = "LIST_BEACONS_FRAGMENT";
 
-    @BindView(R.id.tv_beacon_status)
-    protected TextView tvBeaconStatus;
-    @BindView(R.id.tv_beacon_room)
-    protected TextView tvBeaconRoom;
-    @BindView(R.id.tv_beacon_type)
-    protected TextView tvBeaconType;
-    @BindView(R.id.tv_beacon_distance)
-    protected TextView tvBeaconDistance;
+    @BindView(R.id.rvBeacons)
+    protected RecyclerView rvBeacons;
 
     private MainActivity mainActivity;
-    private MessageListener messageListener;
-    private Message message;
-
+    private BeaconsContract.Presenter presenter;
+    private BeaconAdapter adapter;
     private Unbinder unbinder;
 
     @Override
@@ -47,21 +36,6 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
         mainActivity = (MainActivity)getActivity();
         mainActivity.setBarTitle("Beacons");
 
-        setUpNearbyBeaconsListener(); // TODO enable when ready to work with beacons
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Nearby.getMessagesClient(mainActivity).publish(message);
-        Nearby.getMessagesClient(mainActivity).subscribe(messageListener); //TODO enable when ready to work with beacons
-    }
-
-    @Override
-    public void onStop() {
-        Nearby.getMessagesClient(mainActivity).unpublish(message);
-        Nearby.getMessagesClient(mainActivity).unsubscribe(messageListener); //TODO enable when ready to work with beacons
-        super.onStop();
     }
 
     @Nullable
@@ -76,7 +50,9 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        setUpNearbyBeaconsListener(); // TODO enable when ready to work with beacons
+        setUpBeaconAdapter();
+        presenter = new BeaconsPresenter(this);
+        presenter.getBeacons();
     }
 
     @Override
@@ -85,47 +61,35 @@ public class BeaconsFragment extends Fragment implements BeaconsContract.View {
         super.onDestroyView();
     }
 
-    private void setUpNearbyBeaconsListener(){
-        messageListener = new MessageListener(){
-            @Override
-            public void onFound(Message message) {
-                super.onFound(message);
-                Log.d("rastro", "Found message: " + new String(message.getContent()));
+    private void setUpBeaconAdapter(){
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rvBeacons.setLayoutManager(layoutManager);
+        adapter = new BeaconAdapter(this);
+        rvBeacons.setAdapter(adapter);
+    }
 
-//                try {
-//                    JSONObject jsonObject = new JSONObject(new String(message.getContent()));
-//                    BeaconAttachment beaconAttachment = BeaconAttachment.fromJson(jsonObject);
-//                    tvBeaconStatus.setText("Found");
-//                    tvBeaconRoom.setText(beaconAttachment.getRoom());
-//                    tvBeaconType.setText(beaconAttachment.getType());
-//
-//                } catch (JSONException e) {
-//                    Log.e("rastro", "Could not parse malformed JSON");
-//                }
+    @Override
+    public void onBeaconAdded(BeaconModel beacon) {
+        adapter.addBeacon(beacon);
+    }
 
-            }
+    @Override
+    public void onBeaconModified(BeaconModel beacon) {
+        adapter.modifyBeacon(beacon);
+    }
 
-            @Override
-            public void onLost(Message message) {
-                super.onLost(message);
-                Log.d("rastro", "Lost sight of message: " + new String(message.getContent()));
-                tvBeaconStatus.setText("Lost");
-            }
+    @Override
+    public void onBeaconRemoved(BeaconModel beacon) {
+        adapter.removeBeacon(beacon);
+    }
 
-            @Override
-            public void onDistanceChanged(Message message, Distance distance) {
-                super.onDistanceChanged(message, distance);
-                Log.d("rastro", "New distance: " + distance.getMeters());
-                tvBeaconDistance.setText(distance.getMeters()+" metros");
-            }
+    @Override
+    public void onFailure() {
 
-            @Override
-            public void onBleSignalChanged(Message message, BleSignal bleSignal) {
-                super.onBleSignalChanged(message, bleSignal);
-            }
-        };
+    }
 
-        message = new Message("Hello World".getBytes());
-
+    @Override
+    public void onClick(BeaconModel beacon) {
+        //TODO go to detail beacon
     }
 }

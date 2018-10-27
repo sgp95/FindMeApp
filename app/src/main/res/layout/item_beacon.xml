@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp">
+
+    <RelativeLayout
+        android:id="@+id/rvBeaconContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_menu_beacons" />
+
+        <TextView
+            android:id="@+id/tvRoomName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/ivProfile"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Cocina" />
+
+        <TextView
+            android:id="@+id/tvRoomFloor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvRoomName"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/ivProfile"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="18sp"
+            tools:text="Piso: 01" />
+        <TextView
+            android:id="@+id/tvRoomDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvRoomFloor"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/ivProfile"
+            android:textSize="18sp"
+            tools:text="ESte cuarto es ........................" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

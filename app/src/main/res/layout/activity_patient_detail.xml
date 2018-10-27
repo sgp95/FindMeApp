@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvPatientContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/rlPatientContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <ImageView
+                android:id="@+id/imgPatient"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                app:srcCompat="@drawable/ic_user_icon"
+                tools:layout_editor_absoluteX="115dp"
+                tools:layout_editor_absoluteY="190dp" />
+
+            <RelativeLayout
+                android:id="@+id/rlPatientDataContainer"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="2dp"
+                android:layout_toEndOf="@id/imgPatient"
+                android:background="@color/cardview_light_background"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp">
+
+                <TextView
+                    android:id="@+id/tvFullName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="16sp"
+                    tools:text="ALfredo, Becerro" />
+
+                <TextView
+                    android:id="@+id/tvNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvFullName"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="16sp"
+                    tools:text="14523589" />
+
+                <TextView
+                    android:id="@+id/tvAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvNumber"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="16sp"
+                    tools:text="Edad: 45" />
+
+                <TextView
+                    android:id="@+id/tvSex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvNumber"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@id/tvAge"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="16sp"
+                    tools:text="Sexo: M" />
+
+                <TextView
+                    android:id="@+id/tvDni"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvNumber"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@id/tvSex"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="16sp"
+                    tools:text="DNI: 15687654" />
+
+                <TextView
+                    android:id="@+id/tvSickness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvAge"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="16sp"
+                    tools:text="Enfermedad: Alzheimer" />
+
+                <TextView
+                    android:id="@+id/tvSicknessLevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvSickness"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="16sp"
+                    tools:text="Progreso: Intermedio" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlPatientPositionContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/rlPatientDataContainer"
+                android:layout_marginTop="5dp"
+                android:background="@color/cardview_light_background">
+
+                <TextView
+                    android:id="@+id/tvPositionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="5dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/cardview_dark_background"
+                    android:text="Position del Paciente" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvPatientPosition"
+                    android:layout_below="@id/tvPositionLabel"
+                    android:layout_width="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>

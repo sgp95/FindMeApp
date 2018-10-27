@@ -11,9 +11,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.guillen.santiago.findmeapp.FindMeApplication;
 import com.guillen.santiago.findmeapp.data.firebase.ReferencesManager;
+import com.guillen.santiago.findmeapp.data.model.BeaconModel;
 import com.guillen.santiago.findmeapp.data.model.ObservableModel;
 import com.guillen.santiago.findmeapp.data.model.PatientModel;
-import com.guillen.santiago.findmeapp.data.model.PositionModel;
 import com.guillen.santiago.findmeapp.data.model.User;
 
 import javax.annotation.Nullable;
@@ -153,42 +153,44 @@ public class PatientsService {
         });
     }
 
-    public Observable<ObservableModel<PositionModel>> getPositionByPatient(final String patientId){
-        return Observable.create(new ObservableOnSubscribe<ObservableModel<PositionModel>>() {
+    public Observable<ObservableModel<BeaconModel>> getPositionByPatient(final String patientId){
+        return Observable.create(new ObservableOnSubscribe<ObservableModel<BeaconModel>>() {
             @Override
-            public void subscribe(final ObservableEmitter<ObservableModel<PositionModel>> emitter) throws Exception {
+            public void subscribe(final ObservableEmitter<ObservableModel<BeaconModel>> emitter) throws Exception {
                 manager
                         .getPatientPosition(patientId)
                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            emitter.onError(e);
-                        }
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                                @Nullable FirebaseFirestoreException e) {
 
-                        assert queryDocumentSnapshots != null;
-                        for(DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()){
-                            ObservableModel<PositionModel> positionModel = new ObservableModel<>();
-                            PositionModel position = doc.getDocument().toObject(PositionModel.class);
-                            position.setBeaconId(doc.getDocument().getId());
-                            positionModel.setDataModel(position);
-                            switch (doc.getType()){
-                                case ADDED:
-                                    positionModel.setAdded(true);
-                                    emitter.onNext(positionModel);
-                                    break;
-                                case MODIFIED:
-                                    positionModel.setModified(true);
-                                    emitter.onNext(positionModel);
-                                    break;
-                                case REMOVED:
-                                    positionModel.setRemoved(true);
-                                    emitter.onNext(positionModel);
-                                    break;
+                                if (e != null) {
+                                    emitter.onError(e);
+                                }
+
+                                assert queryDocumentSnapshots != null;
+                                for(DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()){
+                                    ObservableModel<BeaconModel> beaconModel = new ObservableModel<>();
+                                    BeaconModel beacon = doc.getDocument().toObject(BeaconModel.class);
+                                    beacon.setId(doc.getDocument().getId());
+                                    beaconModel.setDataModel(beacon);
+                                    switch (doc.getType()){
+                                        case ADDED:
+                                            beaconModel.setAdded(true);
+                                            emitter.onNext(beaconModel);
+                                            break;
+                                        case MODIFIED:
+                                            beaconModel.setModified(true);
+                                            emitter.onNext(beaconModel);
+                                            break;
+                                        case REMOVED:
+                                            beaconModel.setRemoved(true);
+                                            emitter.onNext(beaconModel);
+                                            break;
+                                    }
+                                }
                             }
-                        }
-                    }
-                });
+                        });
             }
         });
     }

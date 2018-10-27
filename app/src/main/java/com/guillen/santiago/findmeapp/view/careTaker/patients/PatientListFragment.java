@@ -7,14 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.guillen.santiago.findmeapp.R;
 import com.guillen.santiago.findmeapp.data.model.PatientModel;
 import com.guillen.santiago.findmeapp.view.careTaker.MainActivity;
+import com.guillen.santiago.findmeapp.view.careTaker.patientDetail.PatientDetailActivity;
 import com.guillen.santiago.findmeapp.view.register.RegisterUserActivity;
 
 import butterknife.BindView;
@@ -90,7 +91,10 @@ public class PatientListFragment extends Fragment implements PatientListContract
 
     @Override
     public void onClick(PatientModel patient) {
-        Log.d("rastro","Patient clicked ");
+        Gson gson = new Gson();
+        Intent intent = new Intent(mainActivity, PatientDetailActivity.class);
+        intent.putExtra(PatientDetailActivity.PATIENT_INFO, gson.toJson(patient));
+        startActivity(intent);
     }
 
     @OnClick(R.id.ftBtnAddPatient)

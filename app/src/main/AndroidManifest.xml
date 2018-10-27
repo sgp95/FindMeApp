@@ -27,7 +27,8 @@
 
         <activity
             android:name=".view.splash.SplashScreenActivity"
-            android:theme="@style/AppTheme.Fullscreen">
+            android:theme="@style/AppTheme.Fullscreen"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,10 +37,14 @@
         </activity>
         <activity android:name=".view.login.LoginAcitivty" />
         <activity android:name=".view.register.RegisterUserActivity" />
-        <activity android:name=".view.patient.MainActivity" />
+        <activity android:name=".view.patient.MainActivity"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".view.careTaker.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"/>
+
+        <activity android:name=".view.careTaker.patientDetail.PatientDetailActivity"/>
 
         <receiver
             android:name=".view.patient.receiver.BeaconMessageReceiver"
