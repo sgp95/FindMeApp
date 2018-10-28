@@ -91,7 +91,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
 
     public void modifyPatient(PatientModel patientModel){
         int positionChanged = -1;
-        for(int i = 0; i<patientList.size()-1; i++){
+        for(int i = 0; i<patientList.size(); i++){
                 if(patientList.get(i).getId().equals(patientModel.getId())){
                     patientList.set(i, patientModel);
                     positionChanged = i;
@@ -105,7 +105,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
 
     public void removePatient(PatientModel patientModel){
         int positionRemoved = -1;
-        for(int i = 0; i<patientList.size()-1; i++){
+        for(int i = 0; i<patientList.size(); i++){
             if(patientList.get(i).getId().equals(patientModel.getId())){
                 patientList.remove(i);
                 positionRemoved = i;

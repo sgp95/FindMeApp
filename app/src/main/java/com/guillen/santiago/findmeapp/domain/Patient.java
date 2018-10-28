@@ -7,6 +7,7 @@ import com.guillen.santiago.findmeapp.data.model.PatientModel;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -29,6 +30,15 @@ public class Patient extends BaseInteractor {
 
     public void observePatientPostiiton(String patientId ,DisposableObserver<ObservableModel<BeaconModel>> observer){
         Disposable disposable = patientsService.getPositionByPatient(patientId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer);
+
+        addDisposable(disposable);
+    }
+
+    public void updatePatientPostiiton(String patientId, String beaconId, Double newDistance ,DisposableCompletableObserver observer){
+        Disposable disposable = patientsService.updatePositionByPatient(patientId, beaconId, newDistance)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer);

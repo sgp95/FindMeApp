@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     private SubscribeOptions options;
     private MainActivityContract.Presenter presenter;
+    private String currentUserId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,12 +54,20 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     protected void onStop() {
-        Nearby.getMessagesClient(this).unsubscribe(messageListener);
         super.onStop();
     }
 
     @Override
+    protected void onDestroy() {
+        Nearby.getMessagesClient(this).unsubscribe(messageListener);
+        presenter.dispose();
+        super.onDestroy();
+    }
+
+    @Override
     public void onCurrentUserId(String id) {
+
+        currentUserId = id;
 
         Nearby.getMessagesClient(this).subscribe(createIntent(id),options);
 
@@ -91,9 +100,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
             public void onDistanceChanged(Message message, Distance distance) {
                 super.onDistanceChanged(message, distance);
                 try {
-                    Log.d("rastro", "New distance Foreground: " + distance.getMeters());
+                    Double newDistance = Double.valueOf(String.format("%.2f", distance.getMeters()));
+                    Log.d("rastro", "New distance Foreground: " + newDistance);
                     JSONObject jsonObject = new JSONObject(new String(message.getContent()));
                     String beaconId = jsonObject.getString("id");
+                    presenter.updatePatientPosition(currentUserId, beaconId, newDistance);
 
                 } catch (JSONException e) {
                     Log.e("rastro", "Could not parse malformed JSON");

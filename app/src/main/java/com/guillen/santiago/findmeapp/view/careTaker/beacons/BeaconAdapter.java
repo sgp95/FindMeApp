@@ -107,7 +107,7 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.ViewHolder
 
     public void removeBeacon(BeaconModel beacon){
         int positionRemoved = -1;
-        for(int i = 0; i<beaconModelList.size()-1; i++){
+        for(int i = 0; i<beaconModelList.size(); i++){
             if(beaconModelList.get(i).getId().equals(beacon.getId())){
                 beaconModelList.remove(i);
                 positionRemoved = i;

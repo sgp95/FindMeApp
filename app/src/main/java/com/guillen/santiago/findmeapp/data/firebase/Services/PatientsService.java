@@ -201,7 +201,7 @@ public class PatientsService {
             public void subscribe(final CompletableEmitter emitter) throws Exception {
                 manager.getPatientPosition(patientId)
                         .document(beaconId)
-                        .update("distance",newDistance)
+                        .update("patientDistance",newDistance)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

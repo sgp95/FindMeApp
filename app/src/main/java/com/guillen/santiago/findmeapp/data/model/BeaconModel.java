@@ -9,6 +9,7 @@ public class BeaconModel {
     private Double patientDistance;
 
     public BeaconModel() {
+        patientDistance = 0.0;
     }
 
     public BeaconModel(String id, String roomNumber, String roomName, String floorLevel, String description, Double distance) {

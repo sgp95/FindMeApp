@@ -11,6 +11,10 @@ public interface MainActivityContract {
     interface Presenter{
         void getCurrentUser();
 
+        void updatePatientPosition(String userId, String beaconId, Double newDistance);
+
         void logout();
+
+        void dispose();
     }
 }

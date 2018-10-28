@@ -71,8 +71,8 @@ public class PatientDetailActivity extends AppCompatActivity implements PatientD
         tvAge.setText("Edad: " + patientData.getAge());
         tvSex.setText("Sexo: " + patientData.getSex());
         tvDni.setText("DNI: " + patientData.getDocumentNumber());
-        tvSickness.setText("Enfermedad: " + patientData.getSickness());
-        tvSicknessLevel.setText("Progreso: " + patientData.getSicknessLevel());
+        tvSickness.setText("Enfermedad/Condición: " + patientData.getSickness());
+        tvSicknessLevel.setText("Estado: " + patientData.getSicknessLevel());
     }
 
     @Override
